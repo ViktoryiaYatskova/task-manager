@@ -1,0 +1,84 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:react/all",
+    "plugin:jest/all",
+    "airbnb",
+    "prettier",
+    "plugin:react-perf/all"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "jest": true,
+    "es2020": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "rules": {
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": ["const", "let", "case", "default"], "next": "*" },
+      { "blankLine": "any", "prev": ["const", "let"], "next": ["const", "let"] }
+    ],
+    "newline-before-return": "error",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["**/*.stories.js", "**/*.test.js"] }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "never"
+      }
+    ],
+    "func-names": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/no-adjacent-inline-elements": "off",
+    "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
+    "react/jsx-newline": "off",
+    "react-perf/jsx-no-jsx-as-prop": "off",
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["to"],
+        "aspects": ["invalidHref"]
+      }
+    ],
+    "jest/expect-expect": ["error", { "assertFunctionNames": ["expect", "testSaga"] }],
+    "jest/prefer-inline-snapshots": "off",
+    "jest/prefer-expect-assertions": "off",
+    "jest/prefer-called-with": "off",
+    "jest/lowercase-name": "off",
+    "jest/no-hooks": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.test.js", "*.stories.js"],
+      "rules": {
+        "react-perf/jsx-no-new-object-as-prop": "off",
+        "react-perf/jsx-no-new-array-as-prop": "off",
+        "react-perf/jsx-no-new-function-as-prop": "off",
+        "react-perf/jsx-no-jsx-as-prop": "off",
+        "react/jsx-no-constructed-context-values": "off",
+        "react/prop-types": "off"
+      }
+    }
+  ]
+}
