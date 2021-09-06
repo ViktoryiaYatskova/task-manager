@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { tasksSet } from './actions'
+import { tasksSetAction } from './actions'
 
 const initialTasksState = {
   tasksList: [],
 };
 
 const tasksReducer = createReducer(initialTasksState, (builder) => {
-  builder.addCase(tasksSet, (state, { payload }) => ({
+  builder.addCase(tasksSetAction, (state, { payload }) => ({
     ...state,
     tasksList: payload,
   }));

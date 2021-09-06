@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Button } from 'components/atoms'
-import { TaskList } from 'components/organisms';
+import { TaskList } from 'components/organisms'
 import DefaultPageLayout from '../../components/templates/Default/Default'
 import PageHeader from '../../components/atoms/PageHeader/PageHeader'
 import { tasksListSelector } from '../../reducers/tasksReducer/selectors'
+import TaskForm from '../../components/organisms/TaskForm/TaskForm'
 
 const TasksPage = () => {
   const tasks = useSelector(tasksListSelector);
@@ -12,8 +12,8 @@ const TasksPage = () => {
   return (<DefaultPageLayout>
     <PageHeader/>
     <div>
+      <TaskForm />
       <TaskList tasks={tasks} />
-      <Button>Create</Button>
     </div>
   </DefaultPageLayout>)
 }

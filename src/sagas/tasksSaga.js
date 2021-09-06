@@ -1,13 +1,21 @@
 import { put, takeEvery, call } from 'redux-saga/effects'
 import fetchTasks from '../api/tasks/fetchTasks';
-import { tasksFetchAction, tasksSet } from '../reducers/tasksReducer/actions'
+import createTask from '../api/tasks/createTask';
+import { tasksFetchAction, tasksSetAction, taskCreateAction } from '../reducers/tasksReducer/actions'
 
 export function* fetchTasksSaga() {
   const tasks = yield call(fetchTasks);
 
-  yield put(tasksSet(tasks));
+  yield put(tasksSetAction(tasks));
 }
 
-export function* watchFetchTasks() {
-  yield takeEvery(tasksFetchAction, fetchTasksSaga)
+export function* createTasksSaga({ payload: newTask }) {
+  console.log(newTask);
+  yield call(createTask, newTask);
+  yield call(fetchTasksSaga);
+}
+
+export function* watchTasksActions() {
+  yield takeEvery(tasksFetchAction, fetchTasksSaga);
+  yield takeEvery(taskCreateAction, createTasksSaga);
 }
