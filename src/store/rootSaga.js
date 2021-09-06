@@ -1,5 +1,5 @@
 import { all, takeEvery, call } from 'redux-saga/effects'
-import { fetchTasksSaga, watchFetchTasks } from '../sagas/tasksSaga'
+import { fetchTasksSaga, watchTasksActions } from '../sagas/tasksSaga'
 
 function* initApp() {
   yield call(fetchTasksSaga);
@@ -8,6 +8,6 @@ function* initApp() {
 export default function* () {
   yield takeEvery('app/init', initApp);
   yield all([
-    watchFetchTasks(),
+    watchTasksActions(),
   ]);
 }

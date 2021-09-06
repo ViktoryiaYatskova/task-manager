@@ -7,7 +7,7 @@ import { List } from './TaskList.styles';
 const TasksList = ({ tasks }) => (
   <List>
     {tasks.map(task =>
-      <Task key={task.taskId} {...task}/>
+      <Task key={task.id} {...task}/>
     )}
   </List>
   );
