@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 const TextInput = ({ value: initialValue, placeholder, onValueChange }) => {
@@ -10,6 +10,9 @@ const TextInput = ({ value: initialValue, placeholder, onValueChange }) => {
     },
     [onValueChange],
   );
+
+  // allow rewriting title by parent: subscribe on its change
+  useEffect(() => setValue(initialValue), [initialValue]);
 
   return (
     <input type="text" placeholder={placeholder} value={value} onChange={handleTextInputChange} />
