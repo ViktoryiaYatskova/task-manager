@@ -1,5 +1,5 @@
 {
-  "name": "orca-test-task",
+  "name": "orca-via-codesandbox",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -65,5 +65,7 @@
       "src/**/*.js"
     ],
     "globalSetup": "<rootDir>/src/config/setupTests/globalSetup.js"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }
