@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Task } from 'components/molecules';
-import { TaskShape } from 'components/organisms/Task/Task';
+import Task, { TaskShape } from 'components/organisms/Task/Task';
 import { List } from './TaskList.styles';
 
 const TasksList = ({ tasks }) => (
