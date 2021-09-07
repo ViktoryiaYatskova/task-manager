@@ -1,4 +1,4 @@
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
 import { fetchTasks, createTask, deleteTask } from 'api/tasks';
 import {
   tasksFetchAction,
@@ -40,7 +40,7 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
 }
 
 export function* watchTasksActions() {
-  yield takeEvery(tasksFetchAction, fetchTasksSaga);
+  yield takeLatest(tasksFetchAction, fetchTasksSaga);
   yield takeEvery(taskCreateAction, createTaskSaga);
   yield takeEvery(subTaskDeleteSucceedAction, deleteEmptyTaskSaga);
 }
