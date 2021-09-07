@@ -6,3 +6,6 @@ export const tasksFetchAction = createAction('tasks/fetch');
 
 export const subTasksFetchAction = createAction('subtasks/fetch');
 export const subTasksSetAction = createAction('subtasks/set');
+export const subTaskDeleteAction = createAction('subTask/delete');
+
+export const subTaskDeleteSucceedAction = createAction('subTask/delete:success');
