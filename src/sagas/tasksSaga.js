@@ -15,7 +15,7 @@ export function* fetchTasksSaga() {
   yield put(tasksSetAction(tasks));
 }
 
-export function* createTasksSaga({ payload: newTask }) {
+export function* createTaskSaga({ payload: newTask }) {
   yield call(createTask, newTask);
   yield call(fetchTasksSaga);
 }
@@ -28,6 +28,6 @@ export function* fetchSubTasksSaga({ payload: taskId }) {
 
 export function* watchTasksActions() {
   yield takeEvery(tasksFetchAction, fetchTasksSaga);
-  yield takeEvery(taskCreateAction, createTasksSaga);
+  yield takeEvery(taskCreateAction, createTaskSaga);
   yield takeEvery(subTasksFetchAction, fetchSubTasksSaga);
 }
