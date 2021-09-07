@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SubTask, { SubTaskShape } from '../../molecules/SubTask/SubTask';
+import SubTask, { SubTaskShape } from 'components/molecules/SubTask/SubTask';
 
 const SubTasksList = ({ subTasks }) => (
   <ul>
