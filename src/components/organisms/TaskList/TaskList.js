@@ -1,20 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Task, { TaskShape } from 'components/organisms/Task/Task';
-import { List } from './TaskList.styles';
+import { useSelector } from 'react-redux';
+import Task from 'components/organisms/Task/Task';
+import { List } from 'components/atoms';
+import { tasksListSelector } from 'reducers/tasksReducer/selectors';
 
-const TasksList = ({ tasks }) => (
-  <List>
-    {tasks.map(task => (
-      <li key={task.id}>
-        <Task {...task} />
-      </li>
-    ))}
-  </List>
-);
+const TasksList = () => {
+  const tasks = useSelector(tasksListSelector);
 
-TasksList.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.shape(TaskShape)).isRequired,
+  return <List itemsSelector={tasks} ItemComponent={Task} />;
 };
 
 export default TasksList;

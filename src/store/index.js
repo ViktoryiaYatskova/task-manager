@@ -1,13 +1,19 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-import { routerMiddleware as createRouterMiddleware } from 'connected-react-router'
-import createSagaMiddleware from 'redux-saga'
-import rootReducer, { history } from './rootReducer'
-import rootSaga from './rootSaga'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { routerMiddleware as createRouterMiddleware } from 'connected-react-router';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer, { history } from './rootReducer';
+import rootSaga from './rootSaga';
 
-const routerMiddleware = createRouterMiddleware(history)
-const sagaMiddleware = createSagaMiddleware()
-const initialState = {}
-const enhancers = []
+const routerMiddleware = createRouterMiddleware(history);
+const sagaMiddleware = createSagaMiddleware({
+  onError: (error, { sagaStack }) => {
+    // send error data to analytics tracker
+    // eslint-ignore-next
+    console.error('Something came up', error, sagaStack);
+  },
+});
+const initialState = {};
+const enhancers = [];
 const middlewares = [
   ...getDefaultMiddleware({
     thunk: false,
@@ -16,7 +22,7 @@ const middlewares = [
   }),
   routerMiddleware,
   sagaMiddleware,
-]
+];
 
 const store = configureStore({
   reducer: rootReducer,
@@ -24,10 +30,10 @@ const store = configureStore({
   enhancers,
   preloadedState: initialState,
   devTools: { trace: true },
-})
+});
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
 
-export { history }
+export { history };
 
-export default store
+export default store;
