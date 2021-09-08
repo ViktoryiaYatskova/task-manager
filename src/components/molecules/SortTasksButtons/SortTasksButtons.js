@@ -4,13 +4,13 @@ import { SortTypes } from 'constants/tasksConstants';
 import { Button } from 'components/atoms';
 
 const SortButtonTitles = {
-  [SortTypes.BY_CREATE_DATE]: 'Sort by create-date',
-  [SortTypes.BY_TITLE]: 'Sort by title',
+  [SortTypes.CREATE_TIME]: 'Sort by create-date',
+  [SortTypes.TITLE]: 'Sort by title',
 };
 
 const SortTasksButtons = ({ sortBy }) => (
   <>
-    {Object.keys(SortTypes).map(sortType => {
+    {Object.values(SortTypes).map(sortType => {
       // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
       const onSortClick = () => sortBy(sortType);
 
