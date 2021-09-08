@@ -1,5 +1,6 @@
 {
   "name": "orca-test-task",
+  "homepage": "http://ViktoryiaYatskova.github.io/task-manager",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -11,7 +12,9 @@
     "lint-staged": "lint-staged",
     "prettier": "prettier --write -l 'src/**/*.{js,json}'",
     "eslint": "eslint --cache src",
-    "stylelint": "stylelint 'src/**/*.js'"
+    "stylelint": "stylelint 'src/**/*.js'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.0",
@@ -48,7 +51,8 @@
     "redux-mock-store": "^1.5.4",
     "redux-saga-test-plan": "^4.0.1",
     "stylelint": "^13.13.1",
-    "stylelint-processor-styled-components": "^1.10.0"
+    "stylelint-processor-styled-components": "^1.10.0",
+    "gh-pages": "^3.2.3"
   },
   "lint-staged": {
     "src/**/*.js": [
