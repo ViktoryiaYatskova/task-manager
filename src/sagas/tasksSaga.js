@@ -37,8 +37,6 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
 
   if (isLastSubTask(subTaskId, subTasksList)) {
     yield call(deleteTaskSaga, { payload: taskId });
-  } else {
-    logError(`TaskId: ${taskId}, subTask: ${subTaskId}, subTasks length: ${subTasksList.length}`);
   }
 }
 
