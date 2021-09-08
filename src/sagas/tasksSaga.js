@@ -23,7 +23,7 @@ export function* createTaskSaga({ payload: newTask }) {
 export function* deleteTaskSaga({ payload: taskId }) {
   try {
     yield call(deleteTask, taskId);
-    yield call(fetchTasks);
+    yield call(fetchTasksSaga);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Delete task failed:', error);
@@ -35,7 +35,7 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
   const subTasksList = yield select(subTasksSelector, taskId);
 
   if (isLastSubTask(subTaskId, subTasksList)) {
-    yield call(deleteTaskSaga);
+    yield call(deleteTaskSaga, { payload: taskId });
   }
 }
 
