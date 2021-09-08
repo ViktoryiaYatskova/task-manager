@@ -12,9 +12,9 @@ const List = ({ items, ItemComponent }) => (
   </ListContainter>
 );
 
-const ListItemShape = {
+const ListItemShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
-};
+});
 
 List.propTypes = {
   items: PropTypes.arrayOf(ListItemShape).isRequired,
