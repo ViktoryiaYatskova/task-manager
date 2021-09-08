@@ -7,14 +7,12 @@ import SubTasksList from 'components/organisms/SubTasksList/SubTasksList';
 
 const Task = ({ title, id }) => {
   const dispatch = useDispatch();
-  const onFetchSubtasks = useCallback(() => {
-    dispatch(subTasksFetchAction(id));
-  }, [id, dispatch]);
+  const onViewSubtasksClick = useCallback(() => dispatch(subTasksFetchAction(id)), [id]);
 
   return (
     <>
       <span>{title}</span>
-      <Button onClick={onFetchSubtasks}>View Subtasks</Button>
+      <Button onClick={onViewSubtasksClick}>View Subtasks</Button>
       <SubTasksList taskId={id} />
     </>
   );
