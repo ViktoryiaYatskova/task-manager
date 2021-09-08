@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { SortTypes } from 'constants/tasksConstants';
-import { Button } from 'components/atoms';
+import { SortButton, ButtonContainer } from './SortTasksButtons.styles';
 
 const SortButtonTitles = {
   [SortTypes.CREATE_TIME]: 'Sort by create-date',
@@ -9,18 +9,18 @@ const SortButtonTitles = {
 };
 
 const SortTasksButtons = ({ sortBy }) => (
-  <>
+  <ButtonContainer>
     {Object.values(SortTypes).map(sortType => {
       // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
       const onSortClick = () => sortBy(sortType);
 
       return (
-        <Button key={sortType} onClick={onSortClick}>
+        <SortButton key={sortType} onClick={onSortClick}>
           {SortButtonTitles[sortType]}
-        </Button>
+        </SortButton>
       );
     })}
-  </>
+  </ButtonContainer>
 );
 
 SortTasksButtons.propTypes = {
