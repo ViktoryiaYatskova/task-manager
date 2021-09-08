@@ -1,15 +1,14 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { routerMiddleware as createRouterMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
+import logError from 'utils/logger';
 import rootReducer, { history } from './rootReducer';
 import rootSaga from './rootSaga';
 
 const routerMiddleware = createRouterMiddleware(history);
 const sagaMiddleware = createSagaMiddleware({
   onError: (error, { sagaStack }) => {
-    // send error data to analytics tracker
-    // eslint-ignore-next
-    console.error('Something came up', error, sagaStack);
+    logError('Something came up', error, sagaStack);
   },
 });
 const initialState = {};
