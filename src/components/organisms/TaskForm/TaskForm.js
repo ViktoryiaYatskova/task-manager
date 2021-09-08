@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../../atoms';
 import TextInput from '../../atoms/TextInput/TextInput';
 import { taskCreateAction } from '../../../reducers/tasksReducer/actions';
+import { TaskFormContainer } from './TaskForm.styles';
 
 const TaskForm = ({ title: initialTitle }) => {
   const [title, setTitle] = useState(initialTitle);
@@ -14,10 +15,10 @@ const TaskForm = ({ title: initialTitle }) => {
   }, [title, dispatch]);
 
   return (
-    <div>
+    <TaskFormContainer>
       <TextInput value={title} placeholder="task title" onValueChange={setTitle} />
       <Button onClick={onCreate}>Create</Button>
-    </div>
+    </TaskFormContainer>
   );
 };
 
