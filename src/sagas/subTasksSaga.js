@@ -18,9 +18,9 @@ export function* deleteSubTaskSaga({ payload: subTask }) {
     const { id: subTaskId, taskId } = subTask;
 
     yield call(deleteSubtask, subTaskId);
-    yield call(fetchSubTasksSaga, { payload: taskId });
-
+    // on success delete:
     yield put(subTaskDeleteSucceedAction(subTask));
+    yield call(fetchSubTasksSaga, { payload: taskId });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Delete subTask request failed:', error);
