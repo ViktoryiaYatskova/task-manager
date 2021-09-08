@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import SubTask, { SubTaskShape } from 'components/molecules/SubTask/SubTask';
+import { useSelector } from 'react-redux';
+import SubTask from 'components/molecules/SubTask/SubTask';
+import { subTasksSelector } from 'reducers/tasksReducer/selectors';
 
-const SubTasksList = ({ subTasks }) => (
-  <ul>
-    {subTasks.map(subTask => (
-      <li key={subTask.id}>
-        <SubTask {...subTask} />
-      </li>
-    ))}
-  </ul>
-);
+const SubTasksList = ({ taskId }) => {
+  const safeSubTasksSelector = useCallback(state => subTasksSelector(state, taskId), [taskId]);
+  const subTasks = useSelector(safeSubTasksSelector);
 
-SubTasksList.defaultProps = {
-  subTasks: [],
+  return (
+    <ul>
+      {subTasks.map(subTask => (
+        <li key={subTask.id}>
+          <SubTask {...subTask} />
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 SubTasksList.propTypes = {
-  subTasks: PropTypes.arrayOf(SubTaskShape),
+  taskId: PropTypes.string.isRequired,
 };
 
 export default SubTasksList;
