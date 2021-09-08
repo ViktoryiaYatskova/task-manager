@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { SortTypes } from 'constants/tasksConstants';
 
 const comparatorsBySortType = {
-  [SortTypes.CREATE_TIME]: (a, b) => a.createTime < b.createTime,
-  [SortTypes.TITLE]: (a, b) => a.title < b.title,
+  [SortTypes.CREATE_TIME]: (a, b) => a.createTime - b.createTime,
+  [SortTypes.TITLE]: (a, b) => (a.title < b.title ? -1 : 1),
 };
 
 const sortItemsImmutably = (items, sortType) => {
