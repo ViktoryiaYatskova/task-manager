@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button } from 'components/atoms';
 import { subTaskDeleteAction } from 'reducers/tasksReducer/actions';
+import { Label, LabelsList, RemoveButton } from './SubTask.styles';
 
 const SubTask = ({ id, title, labels, taskId }) => {
   const dispatch = useDispatch();
@@ -13,13 +13,15 @@ const SubTask = ({ id, title, labels, taskId }) => {
 
   return (
     <>
+      <RemoveButton onClick={onRemoveClick} />
       <span id={id}>{title}</span>
-      <Button onClick={onRemoveClick}>Remove</Button>
-      <ul>
+      <LabelsList>
         {labels.map(label => (
-          <li key={label}>#{label}</li>
+          <Label key={label} className="label">
+            #{label}
+          </Label>
         ))}
-      </ul>
+      </LabelsList>
     </>
   );
 };
