@@ -6,6 +6,7 @@ import {
   subTaskDeleteAction,
   subTaskDeleteSucceedAction,
 } from 'reducers/tasksReducer/actions';
+import logError from 'utils/logger';
 
 export function* fetchSubTasksSaga({ payload: taskId }) {
   const subTasks = yield call(fetchSubTasks, taskId);
@@ -23,7 +24,7 @@ export function* deleteSubTaskSaga({ payload: subTask }) {
     yield call(fetchSubTasksSaga, { payload: taskId });
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Delete subTask request failed:', error);
+    logError('Delete subTask request failed:', error);
   }
 }
 

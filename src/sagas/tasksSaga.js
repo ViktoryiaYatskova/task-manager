@@ -8,6 +8,7 @@ import {
 } from 'reducers/tasksReducer/actions';
 import { subTasksSelector } from 'reducers/tasksReducer/selectors';
 import { isLastSubTask } from 'helpers/subTaskHelpers';
+import logError from 'utils/logger';
 
 export function* fetchTasksSaga() {
   const tasks = yield call(fetchTasks);
@@ -26,7 +27,7 @@ export function* deleteTaskSaga({ payload: taskId }) {
     yield call(fetchTasksSaga);
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Delete task failed:', error);
+    logError('Delete task failed:', error);
   }
 }
 
@@ -36,6 +37,8 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
 
   if (isLastSubTask(subTaskId, subTasksList)) {
     yield call(deleteTaskSaga, { payload: taskId });
+  } else {
+    logError(`TaskId: ${taskId}, subTask: ${subTaskId}, subTasks length: ${subTasksList.length}`);
   }
 }
 
