@@ -11,7 +11,7 @@ const Checkbox = ({ onCheck, isUncheckable }) => {
     setChecked(checkedState => (isUncheckable ? true : !checkedState));
   }, [onCheck, isChecked, isUncheckable]);
 
-  return <CheckboxStyled onClick={onCheckClick} checked={isChecked} />;
+  return <CheckboxStyled onChange={onCheckClick} checked={isChecked} />;
 };
 
 Checkbox.defaultProps = {
