@@ -1,6 +1,6 @@
-import { createBrowserHistory } from 'history'
-import { combineReducers } from '@reduxjs/toolkit'
-import { connectRouter } from 'connected-react-router'
+import { createBrowserHistory } from 'history';
+import { combineReducers } from '@reduxjs/toolkit';
+import { connectRouter } from 'connected-react-router';
 import tasksReducer from 'reducers/tasksReducer/tasksReducer';
 
 const history = createBrowserHistory();
@@ -10,6 +10,6 @@ const reducer = combineReducers({
   tasks: tasksReducer,
 });
 
-export { history }
+export { history };
 
-export default reducer
+export default reducer;
