@@ -1,12 +1,14 @@
 import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
-import { fetchTasks, createTask, deleteTask } from 'api/tasks';
+import { fetchTasks, createTask, deleteTask, findTasks } from 'api/tasks';
 import {
   tasksFetchAction,
   tasksSetAction,
   taskCreateAction,
   subTaskDeleteSucceedAction,
+  tasksSetFoundAction,
+  findTasksAndSubTasksAction,
 } from 'reducers/tasksReducer/actions';
-import { subTasksSelector } from 'reducers/tasksReducer/selectors';
+import { subTasksByTaskIdSelector } from 'reducers/tasksReducer/selectors';
 import { isLastSubTask } from 'helpers/subTaskHelpers';
 import logError from 'utils/logger';
 
@@ -14,6 +16,12 @@ export function* fetchTasksSaga() {
   const tasks = yield call(fetchTasks);
 
   yield put(tasksSetAction(tasks));
+}
+
+export function* findTasksSaga({ payload: title }) {
+  const tasks = yield call(findTasks, title);
+
+  yield put(tasksSetFoundAction(tasks));
 }
 
 export function* createTaskSaga({ payload: newTask }) {
@@ -33,7 +41,7 @@ export function* deleteTaskSaga({ payload: taskId }) {
 
 export function* deleteEmptyTaskSaga({ payload: subTask }) {
   const { taskId, id: subTaskId } = subTask;
-  const subTasksList = yield select(subTasksSelector, taskId);
+  const subTasksList = yield select(subTasksByTaskIdSelector, taskId);
 
   if (isLastSubTask(subTaskId, subTasksList)) {
     yield call(deleteTaskSaga, { payload: taskId });
@@ -43,5 +51,6 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
 export function* watchTasksActions() {
   yield takeLatest(tasksFetchAction, fetchTasksSaga);
   yield takeEvery(taskCreateAction, createTaskSaga);
+  yield takeEvery(findTasksAndSubTasksAction, findTasksSaga);
   yield takeEvery(subTaskDeleteSucceedAction, deleteEmptyTaskSaga);
 }

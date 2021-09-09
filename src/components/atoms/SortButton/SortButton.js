@@ -13,7 +13,11 @@ export const SortButton = ({ sortType, sortBy }) => {
   // but I keed it, since it's an configured code-style by eslint-rule: react-perf/jsx-no-new-function-as-prop
   const onSortClick = useCallback(() => sortBy(sortType), [sortBy, sortType]);
 
-  return <SortButtonStyled onClick={onSortClick}>{SortButtonTitles[sortType]}</SortButtonStyled>;
+  return (
+    <SortButtonStyled className="yellow-button" onClick={onSortClick}>
+      {SortButtonTitles[sortType]}
+    </SortButtonStyled>
+  );
 };
 
 SortButton.propTypes = {

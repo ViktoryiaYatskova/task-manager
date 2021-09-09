@@ -10,7 +10,7 @@ export default delay(({ title }) => {
   const task = {
     id: faker.datatype.uuid(),
     createTime: Date.now(),
-    title,
+    title: title || faker.lorem.sentence(),
   };
   const subTaskList = Array.from({ length: getRandomNumber(1, 10) }).map(() => ({
     id: faker.datatype.uuid(),

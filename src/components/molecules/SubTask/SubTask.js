@@ -14,7 +14,7 @@ const SubTask = ({ id, title, labels, taskId }) => {
   );
 
   return (
-    <>
+    <span>
       <RemoveButton onClick={onRemoveClick} />
       <span id={id}>{title}</span>
       <LabelsList>
@@ -24,7 +24,7 @@ const SubTask = ({ id, title, labels, taskId }) => {
           </Label>
         ))}
       </LabelsList>
-    </>
+    </span>
   );
 };
 

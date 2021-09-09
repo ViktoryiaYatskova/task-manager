@@ -1,4 +1,5 @@
-import deleteSubtask from './deleteSubtask'
-import fetchSubTasks from './fetchSubTasks'
+import deleteSubTask from './deleteSubTask';
+import fetchSubTasks from './fetchSubTasks';
+import findSubTasks from './findSubTasks';
 
-export { deleteSubtask, fetchSubTasks }
+export { deleteSubTask, fetchSubTasks, findSubTasks };
