@@ -1,11 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-  tasksSetAction,
-  tasksSetFoundAction,
-  subTasksSetAction,
-  subTasksSetFoundAction,
-  subTaskDeleteAction,
-} from './actions';
+import { tasksSetAction, tasksSetFoundAction, tasksResetFoundAction } from './actions';
 
 const initialTasksState = {
   tasksList: [],
@@ -24,31 +18,10 @@ const tasksReducer = createReducer(initialTasksState, builder => {
     .addCase(tasksSetFoundAction, (state, { payload: foundTasksList }) => ({
       ...state,
       foundTasksList,
-    }));
-  // // reset invalid search data
-  // .addCase(subTaskDeleteAction, (state) => ({
-  //   ...state,
-  //   foundTasksList: [],
-  // }));
-
-  // SubTasks actins
-  builder
-    .addCase(subTasksSetAction, (state, { payload }) => ({
-      ...state,
-      allSubTasks: {
-        ...state.allSubTasks,
-        [payload.taskId]: payload.subTasks,
-      },
     }))
-    .addCase(subTasksSetFoundAction, (state, { payload: foundSubTasksList }) => ({
-      ...state,
-      foundSubTasksList,
-    }))
-    // reset invalid search data
-    .addCase(subTaskDeleteAction, state => ({
+    .addCase(tasksResetFoundAction, state => ({
       ...state,
       foundTasksList: [],
-      foundSubTasksList: [],
     }));
 });
 

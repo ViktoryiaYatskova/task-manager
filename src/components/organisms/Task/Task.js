@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Button } from 'components/atoms';
-import { subTasksFetchAction } from 'reducers/tasksReducer/actions';
+import { subTasksFetchAction } from 'reducers/subTasksReducer/actions';
 import SubTasksList from 'components/organisms/SubTasksList/SubTasksList';
 import { formatTimeForRender } from 'helpers/tasksHelpers';
 import { TaskWrapper, TaskName } from './Task.styles';
