@@ -4,3 +4,4 @@ export { default as TextInput } from './TextInput/TextInput';
 export { default as PageHeader } from './PageHeader/PageHeader';
 export { default as List } from './List/List';
 export { default as FoundTask } from './FoundTask/FoundTask';
+export { default as Checkbox } from './Checkbox/Checkbox';
