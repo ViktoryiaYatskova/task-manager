@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Checkbox as RemoveTaskCheckbox } from 'components/atoms';
 import { subTaskDeleteAction } from 'reducers/tasksReducer/actions';
-import { Label, LabelsList, RemoveButton } from './SubTask.styles';
+import { Label, LabelsList } from './SubTask.styles';
 
 const SubTask = ({ id, title, labels, taskId }) => {
   const dispatch = useDispatch();
-  // I'd rather remove useCallback, as it doesn't make here an optimization: https://kentcdodds.com/blog/usememo-and-usecallback
-  // but I keed it, since it's an configured code-style by eslint-rule: react-perf/jsx-no-new-function-as-prop
   const onRemoveClick = useCallback(
     () => dispatch(subTaskDeleteAction({ id, taskId })),
     [dispatch, id, taskId],
@@ -15,7 +14,7 @@ const SubTask = ({ id, title, labels, taskId }) => {
 
   return (
     <span>
-      <RemoveButton onClick={onRemoveClick} />
+      <RemoveTaskCheckbox onCheck={onRemoveClick} isUncheckable />
       <span id={id}>{title}</span>
       <LabelsList>
         {labels.map(label => (
