@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Checkbox as RemoveTaskCheckbox } from 'components/atoms';
+import { Checkbox as RemoveTaskCheckbox, MarkedText } from 'components/atoms';
 import { subTaskDeleteAction } from 'reducers/subTasksReducer/actions';
 import { Label, LabelsList } from './SubTask.styles';
 
@@ -15,7 +15,9 @@ const SubTask = ({ id, title, labels, taskId }) => {
   return (
     <span>
       <RemoveTaskCheckbox onCheck={onRemoveClick} isUncheckable />
-      <span id={id}>{title}</span>
+      <span id={id}>
+        <MarkedText>{title}</MarkedText>
+      </span>
       <LabelsList>
         {labels.map(label => (
           <Label key={label} className="label">

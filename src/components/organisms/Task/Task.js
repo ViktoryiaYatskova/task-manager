@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { Button } from 'components/atoms';
+import { Button, MarkedText } from 'components/atoms';
 import { subTasksFetchAction } from 'reducers/subTasksReducer/actions';
 import SubTasksList from 'components/organisms/SubTasksList/SubTasksList';
 import { formatTimeForRender } from 'helpers/tasksHelpers';
@@ -14,7 +14,9 @@ const Task = ({ title, id, createTime }) => {
   return (
     <>
       <TaskWrapper>
-        <TaskName>{title}</TaskName>
+        <TaskName>
+          <MarkedText>{title}</MarkedText>
+        </TaskName>
         <span>{formatTimeForRender(createTime)}</span>
         <Button onClick={onViewSubtasksClick}>Expand</Button>
       </TaskWrapper>
