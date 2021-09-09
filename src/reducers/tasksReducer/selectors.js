@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { isSearchModeSelector } from 'reducers/appReducer/selectors';
 
 export const tasksListSelector = state => state.tasks.tasksList;
 export const tasksByIdSelector = (state, taskId) =>
@@ -15,10 +16,11 @@ export const foundSubTasksByTaskIdSelectorFactory = taskId =>
 
 export const subTasksByTaskIdSelector = (state, taskId) => state.tasks.allSubTasks[taskId] || [];
 
-export const visibleSubTasksByTaskIdSelectorFactory = (isSearchMode, taskId) =>
+export const visibleSubTasksByTaskIdSelectorFactory = taskId =>
   createSelector(
+    isSearchModeSelector,
     // TODO: optimize, as this call produces new function each time
     foundSubTasksByTaskIdSelectorFactory(taskId),
     state => subTasksByTaskIdSelector(state, taskId),
-    (foundSubTasks, subTasks) => (isSearchMode ? foundSubTasks : subTasks),
+    (isSearchMode, foundSubTasks, subTasks) => (isSearchMode ? foundSubTasks : subTasks),
   );

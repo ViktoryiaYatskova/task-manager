@@ -15,7 +15,7 @@ const sortItemsImmutably = (items, sortType) => {
 };
 
 const useSorting = items => {
-  const [sortType, setSortType] = useState(SortTypes.BY_CREATE_DATE);
+  const [sortType, setSortType] = useState(SortTypes.CREATE_TIME);
   const sortedItems = sortItemsImmutably(items, sortType);
 
   return { sortedItems, sortBy: setSortType };
