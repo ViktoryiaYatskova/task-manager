@@ -5,8 +5,8 @@ import {
   tasksSetAction,
   taskCreateAction,
   tasksSetFoundAction,
-  findTasksAction,
 } from 'reducers/tasksReducer/actions';
+import { searchItemsAction } from 'reducers/appReducer/actions';
 import { subTaskDeleteSucceedAction } from 'reducers/subTasksReducer/actions';
 import { subTasksByTaskIdSelector } from 'reducers/subTasksReducer/selectors';
 import { isLastSubTask } from 'helpers/subTaskHelpers';
@@ -51,6 +51,6 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
 export function* watchTasksActions() {
   yield takeLatest(tasksFetchAction.type, fetchTasksSaga);
   yield takeEvery(taskCreateAction.type, createTaskSaga);
-  yield takeLatest(findTasksAction.type, findTasksSaga);
+  yield takeLatest(searchItemsAction.type, findTasksSaga);
   yield takeEvery(subTaskDeleteSucceedAction.type, deleteEmptyTaskSaga);
 }
