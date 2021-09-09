@@ -5,9 +5,9 @@ import {
   subTasksSetAction,
   subTaskDeleteAction,
   subTaskDeleteSucceedAction,
-  findTasksAndSubTasksAction,
+  findSubTasksAction,
   subTasksSetFoundAction,
-} from 'reducers/tasksReducer/actions';
+} from 'reducers/subTasksReducer/actions';
 import logError from 'utils/logger';
 
 export function* fetchSubTasksSaga({ payload: taskId }) {
@@ -38,5 +38,5 @@ export function* deleteSubTaskSaga({ payload: subTask }) {
 export function* watchSubTasksActions() {
   yield takeEvery(subTasksFetchAction.type, fetchSubTasksSaga);
   yield takeEvery(subTaskDeleteAction.type, deleteSubTaskSaga);
-  yield takeLatest(findTasksAndSubTasksAction.type, findSubTasksSaga);
+  yield takeLatest(findSubTasksAction.type, findSubTasksSaga);
 }

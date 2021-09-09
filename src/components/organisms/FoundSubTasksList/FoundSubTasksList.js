@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { foundSubTasksSelector } from 'reducers/tasksReducer/selectors';
+import { foundSubTasksSelector } from 'reducers/subTasksReducer/selectors';
 import { List } from 'components/atoms';
 import FoundSubTask from 'components/molecules/FoundSubTask/FoundSubTask';
 
