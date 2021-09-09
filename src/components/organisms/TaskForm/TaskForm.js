@@ -2,10 +2,8 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, TextInput } from 'components/atoms';
-import { AppModes } from 'constants/general';
-import { findTasksAction, taskCreateAction } from 'reducers/tasksReducer/actions';
-import { findSubTasksAction } from 'reducers/subTasksReducer/actions';
-import { setAppModeAction } from 'reducers/appReducer/actions';
+import { taskCreateAction } from 'reducers/tasksReducer/actions';
+import { setAppModeAction, searchItemsAction } from 'reducers/appReducer/actions';
 import { isSearchModeSelector } from 'reducers/appReducer/selectors';
 import { TaskFormContainer } from './TaskForm.styles';
 
@@ -17,13 +15,6 @@ const TaskForm = ({ title: initialTitle }) => {
     dispatch(taskCreateAction({ title }));
     setTitle('');
   }, [title, dispatch]);
-  const dispatchSearch = useCallback(
-    query => {
-      dispatch(findTasksAction(query));
-      dispatch(findSubTasksAction(query));
-    },
-    [dispatch],
-  );
 
   // UseCallback is redundant here
   const onToggleSearchMode = useCallback(() => {
@@ -31,19 +22,19 @@ const TaskForm = ({ title: initialTitle }) => {
     if (isSearchMode) {
       setTitle('');
     } else {
-      dispatchSearch(title);
+      dispatch(searchItemsAction(title));
     }
 
-    dispatch(setAppModeAction(isSearchMode ? AppModes.VIEW : AppModes.SEARCH));
-  }, [dispatch, dispatchSearch, isSearchMode, title]);
+    dispatch(setAppModeAction(!isSearchMode));
+  }, [dispatch, isSearchMode, title]);
 
   const onTitleChange = useCallback(
     value => {
       setTitle(value);
-      // TODO: too many if-s => consider to split the component into to
-      if (isSearchMode) dispatchSearch(value);
+      // TODO: too many if-s => consider to split the component into two
+      if (isSearchMode) dispatch(searchItemsAction(value));
     },
-    [isSearchMode, dispatchSearch],
+    [isSearchMode, dispatch],
   );
 
   return (

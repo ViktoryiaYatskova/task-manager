@@ -1,16 +1,22 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { AppModes } from 'constants/general';
-import { setAppModeAction } from './actions';
+import { setAppModeAction, searchItemsAction } from './actions';
 
 const initialTasksState = {
-  appMode: AppModes.VIEW,
+  isSearchMode: false,
+  searchQuery: '',
 };
 
 const appReducer = createReducer(initialTasksState, builder => {
-  builder.addCase(setAppModeAction, (state, { payload: appMode }) => ({
-    ...state,
-    appMode,
-  }));
+  builder
+    .addCase(setAppModeAction, (state, { payload: isSearchMode }) => ({
+      ...state,
+      isSearchMode,
+      searchQuery: isSearchMode ? state.searchQuery : '',
+    }))
+    .addCase(searchItemsAction, (state, { payload: searchQuery }) => ({
+      ...state,
+      searchQuery,
+    }));
 });
 
 export default appReducer;

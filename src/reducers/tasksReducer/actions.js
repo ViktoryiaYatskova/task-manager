@@ -5,4 +5,3 @@ export const taskCreateAction = createAction('task/create');
 export const tasksFetchAction = createAction('tasks/fetch');
 export const tasksSetFoundAction = createAction('tasks/set/found');
 export const tasksResetFoundAction = createAction('tasks/reset/found');
-export const findTasksAction = createAction('tasks/find');
