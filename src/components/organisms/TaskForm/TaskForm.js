@@ -16,14 +16,27 @@ const TaskForm = ({ title: initialTitle }) => {
     dispatch(taskCreateAction({ title }));
     setTitle('');
   }, [title, dispatch]);
+
+  // UseCallback is redundant here
   const onToggleSearchMode = useCallback(() => {
+    // Clear inbox on leaving search-mode
+    if (isSearchMode) setTitle('');
+
     dispatch(setAppModeAction(isSearchMode ? AppModes.VIEW : AppModes.SEARCH));
-    dispatch(findTasksAndSubTasksAction(title));
-  }, [title, dispatch, isSearchMode]);
+  }, [dispatch, isSearchMode]);
+
+  const onTitleChange = useCallback(
+    value => {
+      setTitle(value);
+      if (isSearchMode) dispatch(findTasksAndSubTasksAction(value));
+      // TODO: too many if-s => consider to split the component into to
+    },
+    [isSearchMode, dispatch, title],
+  );
 
   return (
     <TaskFormContainer>
-      <TextInput value={title} placeholder="task title" onValueChange={setTitle} />
+      <TextInput value={title} placeholder="task title" onValueChange={onTitleChange} />
       {!isSearchMode && <Button onClick={onCreate}>Create</Button>}
       <Button onClick={onToggleSearchMode}>{isSearchMode ? 'Exit Search' : 'Start Search'}</Button>
     </TaskFormContainer>
