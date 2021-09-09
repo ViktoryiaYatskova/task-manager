@@ -13,7 +13,3 @@ export const Label = styled.li`
 export const LabelsList = styled.ul`
   margin: 3px 0 10px;
 `;
-
-export const RemoveButton = styled.input.attrs({ type: 'checkbox' })`
-  margin-right: 5px;
-`;
