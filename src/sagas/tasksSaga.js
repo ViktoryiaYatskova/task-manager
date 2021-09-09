@@ -49,8 +49,8 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
 }
 
 export function* watchTasksActions() {
-  yield takeLatest(tasksFetchAction, fetchTasksSaga);
-  yield takeEvery(taskCreateAction, createTaskSaga);
-  yield takeEvery(findTasksAndSubTasksAction, findTasksSaga);
-  yield takeEvery(subTaskDeleteSucceedAction, deleteEmptyTaskSaga);
+  yield takeLatest(tasksFetchAction.type, fetchTasksSaga);
+  yield takeEvery(taskCreateAction.type, createTaskSaga);
+  yield takeLatest(findTasksAndSubTasksAction.type, findTasksSaga);
+  yield takeEvery(subTaskDeleteSucceedAction.type, deleteEmptyTaskSaga);
 }
