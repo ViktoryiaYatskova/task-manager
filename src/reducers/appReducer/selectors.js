@@ -1,3 +1,3 @@
-import { AppModes } from 'constants/general';
+export const isSearchModeSelector = state => state.app.isSearchMode;
 
-export const isSearchModeSelector = state => state.app.appMode === AppModes.SEARCH;
+export const searchQuerySelector = state => state.app.searchQuery;
