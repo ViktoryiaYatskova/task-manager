@@ -12,4 +12,9 @@ export const Wrapper = styled.button`
   &.yellow-button {
     background-color: #ffe082;
   }
+
+  &.purple-button {
+    background-color: #9c9cc7;
+    color: #fff;
+  }
 `;

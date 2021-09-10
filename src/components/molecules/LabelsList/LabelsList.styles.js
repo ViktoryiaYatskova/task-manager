@@ -1,15 +1,16 @@
 import styled from 'styled-components';
+import { Button } from 'components/atoms';
 
-export const LabelStyled = styled.li`
+export const LabelStyled = styled(Button)`
   display: inline-block;
   margin-right: 5px;
   padding: 0 5px;
-
-  border-radius: 1em;
-  background-color: #9c9cc7;
-  color: #fff;
 `;
 
 export const LabelsListContainer = styled.ul`
   margin: 3px 0 10px;
+
+  & > li {
+    display: 'inline-block';
+  }
 `;

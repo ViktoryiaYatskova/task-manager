@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-// import PropTypes from 'prop-types';
 import { LabelsList } from 'components/molecules';
 
 const FiltersPanel = () => {

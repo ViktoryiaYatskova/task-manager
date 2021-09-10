@@ -6,3 +6,4 @@ export const subTasksSetFoundAction = createAction('subTasks/set/found');
 export const subTasksResetFoundAction = createAction('subTask/reset/found');
 export const subTaskDeleteAction = createAction('subTask/delete');
 export const subTaskDeleteSucceedAction = createAction('subTask/delete/success');
+export const searchSubTasksByLabelAction = createAction('subTask/search:byLabel');

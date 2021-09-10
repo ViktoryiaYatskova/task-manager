@@ -1,43 +1,44 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { searchSubTasksByLabelAction } from 'reducers/subTasksReducer/actions';
 import { LabelsListContainer, LabelStyled } from './LabelsList.styles';
 
 // TODO: move to atoms
-const Label = ({ label, onClick }) => {
-  const handleClick = useCallback(() => onClick(label), [onClick, label]);
+const Label = ({ label }) => {
+  const dispatch = useDispatch();
+  const handleClick = useCallback(
+    () => dispatch(searchSubTasksByLabelAction(label)),
+    [dispatch, searchSubTasksByLabelAction, label],
+  );
 
   return (
-    <LabelStyled className="label" onClick={handleClick}>
+    <LabelStyled className="label purple-button" onClick={handleClick}>
       #{label}
     </LabelStyled>
   );
 };
 
-Label.defaultProps = {
-  onClick: () => null,
-};
-
 Label.propTypes = {
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
 };
 
-const LabelsList = ({ labels, onLabelClick }) => (
+const LabelsList = ({ labels }) => (
   <LabelsListContainer>
     {labels.map(label => (
-      <Label key={label} label={label} onClick={onLabelClick} />
+      <li key={label}>
+        <Label label={label} />
+      </li>
     ))}
   </LabelsListContainer>
 );
 
 LabelsList.defaultProps = {
   labels: [],
-  onLabelClick: () => null,
 };
 
 LabelsList.propTypes = {
   labels: PropTypes.arrayOf(PropTypes.string),
-  onLabelClick: PropTypes.func,
 };
 
 export default LabelsList;
