@@ -1,15 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { Button, MarkedText } from 'components/atoms';
+import { useDispatch, useSelector } from 'react-redux';
+import { MarkedText, ToggleButton } from 'components/atoms';
 import { subTasksFetchAction } from 'reducers/subTasksReducer/actions';
+import { isSearchModeSelector } from 'reducers/appReducer/selectors';
 import SubTasksList from 'components/organisms/SubTasksList/SubTasksList';
 import { formatTimeForRender } from 'helpers/tasksHelpers';
 import { TaskWrapper, TaskName } from './Task.styles';
 
 const Task = ({ title, id, createTime }) => {
+  const isSearchMode = useSelector(isSearchModeSelector);
+  const [isSubTasksListExpanded, setSubTasksListExpanded] = useState(false);
   const dispatch = useDispatch();
-  const onViewSubtasksClick = useCallback(() => dispatch(subTasksFetchAction(id)), [id, dispatch]);
+  const onToggleExpand = useCallback(
+    isExpanded => {
+      if (isExpanded) {
+        dispatch(subTasksFetchAction(id));
+      }
+      setSubTasksListExpanded(isExpanded);
+    },
+    [id, dispatch],
+  );
 
   return (
     <>
@@ -18,9 +29,11 @@ const Task = ({ title, id, createTime }) => {
           <MarkedText>{title}</MarkedText>
         </TaskName>
         <span>{formatTimeForRender(createTime)}</span>
-        <Button onClick={onViewSubtasksClick}>Expand</Button>
+        {!isSearchMode && (
+          <ToggleButton onToggle={onToggleExpand} onTitle="Collapse" offTitle="Expand" />
+        )}
       </TaskWrapper>
-      <SubTasksList taskId={id} />
+      <SubTasksList taskId={id} isExpanded={isSubTasksListExpanded} />
     </>
   );
 };

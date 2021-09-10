@@ -7,4 +7,8 @@ export const ListContainter = styled.ul`
   .item {
     margin-bottom: 5px;
   }
+
+  &.hidden {
+    display: none;
+  }
 `;
