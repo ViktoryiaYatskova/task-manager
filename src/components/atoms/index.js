@@ -6,3 +6,4 @@ export { default as List } from './List/List';
 export { default as Checkbox } from './Checkbox/Checkbox';
 export { default as MarkedText } from './MarkedText/MarkedText';
 export { default as Label } from './Label/Label';
+export { default as ToggleButton } from './ToggleButton/ToggleButton';
