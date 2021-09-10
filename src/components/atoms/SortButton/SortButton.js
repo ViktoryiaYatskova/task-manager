@@ -9,8 +9,7 @@ const SortButtonTitles = {
 };
 
 export const SortButton = ({ sortType, sortBy }) => {
-  // I'd rather remove useCallback, as it doesn't make here an optimization: https://kentcdodds.com/blog/usememo-and-usecallback
-  // but I keed it, since it's an configured code-style by eslint-rule: react-perf/jsx-no-new-function-as-prop
+  // UseCallback is needed, since it uses an closure value
   const onSortClick = useCallback(() => sortBy(sortType), [sortBy, sortType]);
 
   return (
