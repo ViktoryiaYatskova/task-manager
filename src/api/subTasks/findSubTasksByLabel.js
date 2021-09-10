@@ -1,11 +1,14 @@
 import Storage from 'utils/storage';
 import delay from 'utils/delay';
 
-export default delay(searchLabel => {
+export default delay(searchLabels => {
   const subTasks = Storage.subTasks.get();
-  const lowerCasedLabel = searchLabel.toLowerCase();
 
-  return subTasks.filter(subTask =>
-    subTask.labels.some(label => label.toLowerCase() === lowerCasedLabel),
-  );
+  return searchLabels.reduce((filteredSubTasks, searchLabel) => {
+    const lowerCasedLabel = searchLabel.toLowerCase();
+
+    return filteredSubTasks.filter(subTask =>
+      subTask.labels.some(label => label.toLowerCase() === lowerCasedLabel),
+    );
+  }, subTasks);
 });

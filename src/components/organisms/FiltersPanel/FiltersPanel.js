@@ -1,13 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { subTaskFiltersSelector } from 'reducers/subTasksReducer/selectors';
 import { LabelsList } from 'components/molecules';
 
 const FiltersPanel = () => {
-  // TODO: fetch labels list via API
-  const labels = useMemo(() => ['ut', 'sed', 'sunt', 'commodi', 'dolores']); // useSelector(labelsSelector);
+  const filters = useSelector(subTaskFiltersSelector);
 
   return (
     <div>
-      <LabelsList labels={labels} />
+      <LabelsList labels={filters} />
     </div>
   );
 };

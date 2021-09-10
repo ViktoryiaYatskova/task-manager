@@ -1,9 +1,17 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { subTasksSetAction, subTasksSetFoundAction, subTasksResetFoundAction } from './actions';
+import { uniques } from 'helpers/subTaskHelpers';
+import { setAppModeAction } from 'reducers/appReducer/actions';
+import {
+  subTasksSetAction,
+  subTasksSetFoundAction,
+  subTasksResetFoundAction,
+  searchSubTasksByLabelAction,
+} from './actions';
 
 const initialTasksState = {
   allSubTasks: {},
   foundSubTasksList: [],
+  filters: [],
 };
 
 const subTasksReducer = createReducer(initialTasksState, builder => {
@@ -22,6 +30,15 @@ const subTasksReducer = createReducer(initialTasksState, builder => {
     .addCase(subTasksResetFoundAction, state => ({
       ...state,
       foundSubTasksList: [],
+    }))
+    .addCase(searchSubTasksByLabelAction, (state, { payload: label }) => ({
+      ...state,
+      filters: uniques(...state.filters, label),
+    }))
+    // TODO: get rid of alian action
+    .addCase(setAppModeAction, (state, { payload: isSearchMode }) => ({
+      ...state,
+      filters: isSearchMode ? [] : state.filters,
     }));
 });
 
