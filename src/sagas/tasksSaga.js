@@ -20,7 +20,7 @@ export function* fetchTasksSaga() {
 }
 
 export function* findTasksSaga() {
-  const searchQuery = select(searchQuerySelector);
+  const searchQuery = yield select(searchQuerySelector);
 
   if (searchQuery) {
     const tasks = yield call(findTasks, searchQuery);
@@ -38,7 +38,7 @@ export function* deleteTaskSaga({ payload: taskId }) {
   try {
     yield call(deleteTask, taskId);
 
-    const isSearchMode = select(isSearchModeSelector);
+    const isSearchMode = yield select(isSearchModeSelector);
 
     if (isSearchMode) {
       yield call(findTasksSaga);
