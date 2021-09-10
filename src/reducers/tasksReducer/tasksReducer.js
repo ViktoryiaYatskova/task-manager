@@ -4,9 +4,6 @@ import { tasksSetAction, tasksSetFoundAction, tasksResetFoundAction } from './ac
 const initialTasksState = {
   tasksList: [],
   foundTasksList: [],
-
-  allSubTasks: {},
-  foundSubTasksList: [],
 };
 
 const tasksReducer = createReducer(initialTasksState, builder => {
