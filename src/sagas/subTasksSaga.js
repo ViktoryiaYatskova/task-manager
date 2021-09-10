@@ -11,7 +11,7 @@ import {
 import { searchItemsAction } from 'reducers/appReducer/actions';
 import { subTaskFiltersSelector } from 'reducers/subTasksReducer/selectors';
 import { isSearchModeSelector, searchQuerySelector } from 'reducers/appReducer/selectors';
-import logError from 'utils/logger';
+import { logError } from 'utils/logger';
 
 export function* fetchSubTasksSaga({ payload: taskId }) {
   const subTasks = yield call(fetchSubTasks, taskId);
@@ -53,9 +53,8 @@ export function* deleteSubTaskSaga({ payload: subTask }) {
       // TODO: optimize: call only for subTask.taskId
       yield fork(findSubTasksByLabelSaga);
       yield fork(findSubTasksSaga);
-    } else {
-      yield call(fetchSubTasksSaga, { payload: taskId });
     }
+    yield call(fetchSubTasksSaga, { payload: taskId });
   } catch (error) {
     logError('Delete subTask request failed:', error);
   }
