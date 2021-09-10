@@ -2,11 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, TextInput } from 'components/atoms';
+import { FiltersPanel } from 'components/organisms';
 import { taskCreateAction } from 'reducers/tasksReducer/actions';
 import { setAppModeAction, searchItemsAction } from 'reducers/appReducer/actions';
 import { isSearchModeSelector } from 'reducers/appReducer/selectors';
 import { TaskFormContainer } from './TaskForm.styles';
 
+// TODO: split into organisms
 const TaskForm = ({ title: initialTitle }) => {
   const [title, setTitle] = useState(initialTitle);
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ const TaskForm = ({ title: initialTitle }) => {
       <TextInput value={title} placeholder="task title" onValueChange={onTitleChange} />
       {!isSearchMode && <Button onClick={onCreate}>Create</Button>}
       <Button onClick={onToggleSearchMode}>{isSearchMode ? 'Exit Search' : 'Start Search'}</Button>
+      <FiltersPanel />
     </TaskFormContainer>
   );
 };
