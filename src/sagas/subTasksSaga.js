@@ -20,7 +20,7 @@ export function* fetchSubTasksSaga({ payload: taskId }) {
 }
 
 export function* findSubTasksSaga() {
-  const searchQuery = select(searchQuerySelector);
+  const searchQuery = yield select(searchQuerySelector);
 
   if (searchQuery) {
     const subTasks = yield call(findSubTasks, searchQuery);
@@ -42,7 +42,7 @@ export function* findSubTasksByLabelSaga() {
 export function* deleteSubTaskSaga({ payload: subTask }) {
   try {
     const { id: subTaskId, taskId } = subTask;
-    const isSearchMode = select(isSearchModeSelector);
+    const isSearchMode = yield select(isSearchModeSelector);
 
     yield call(deleteSubTask, subTaskId);
     // on success delete:
@@ -50,6 +50,7 @@ export function* deleteSubTaskSaga({ payload: subTask }) {
 
     if (isSearchMode) {
       // refetch found subtask to show relevant data
+      // TODO: optimize: call only for subTask.taskId
       yield fork(findSubTasksByLabelSaga);
       yield fork(findSubTasksSaga);
     } else {
