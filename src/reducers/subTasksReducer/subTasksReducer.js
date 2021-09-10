@@ -2,9 +2,6 @@ import { createReducer } from '@reduxjs/toolkit';
 import { subTasksSetAction, subTasksSetFoundAction, subTasksResetFoundAction } from './actions';
 
 const initialTasksState = {
-  tasksList: [],
-  foundTasksList: [],
-
   allSubTasks: {},
   foundSubTasksList: [],
 };
