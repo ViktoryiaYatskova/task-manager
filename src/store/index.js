@@ -1,7 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { routerMiddleware as createRouterMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
-import logError from 'utils/logger';
+import { logError } from 'utils/logger';
 import rootReducer, { history } from './rootReducer';
 import rootSaga from './rootSaga';
 

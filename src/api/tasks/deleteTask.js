@@ -1,17 +1,18 @@
 import Storage from 'utils/storage';
 import delay from 'utils/delay';
+import { logRequest } from 'utils/logger';
 
-export default delay(taskId => {
-  const tasks = Storage.tasks.get();
+export default delay(
+  logRequest('deleteTask', taskId => {
+    const allTasks = Storage.tasks.get();
+    const targetTask = allTasks.some(task => task.id === taskId);
 
-  const allTasks = Storage.tasks.get();
-  const targetTask = allTasks.find(task => task.id === taskId);
+    if (!targetTask) {
+      throw new Error(`Task ${taskId} wasn't found`);
+    }
 
-  if (!targetTask) {
-    throw new Error(`Task ${taskId} wasn't found`);
-  }
+    Storage.tasks.set([...allTasks.filter(task => task.id !== taskId)]);
 
-  Storage.tasks.set([...tasks.filter(task => task.id !== taskId)]);
-
-  return targetTask;
-});
+    return targetTask;
+  }),
+);

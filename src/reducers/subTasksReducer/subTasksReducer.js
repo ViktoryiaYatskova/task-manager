@@ -35,10 +35,13 @@ const subTasksReducer = createReducer(initialTasksState, builder => {
       ...state,
       filters: uniques(...state.filters, label),
     }))
-    // TODO: get rid of alian action
+    // TODO: get rid of alien action
     .addCase(setAppModeAction, (state, { payload: isSearchMode }) => ({
       ...state,
       filters: isSearchMode ? state.filters : [],
+      // Temporary workaround : collapse all subtasks on searchMode
+      // TODO: refetch only visible in regular mode subtasks on delete subtask
+      allSubTasks: isSearchMode ? state.allSubTasks : {},
     }));
 });
 

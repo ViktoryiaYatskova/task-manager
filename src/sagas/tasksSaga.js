@@ -1,4 +1,4 @@
-import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call, select, fork } from 'redux-saga/effects';
 import { fetchTasks, createTask, deleteTask, findTasks } from 'api/tasks';
 import {
   tasksFetchAction,
@@ -11,7 +11,7 @@ import { subTaskDeleteSucceedAction } from 'reducers/subTasksReducer/actions';
 import { subTasksByTaskIdSelector } from 'reducers/subTasksReducer/selectors';
 import { isSearchModeSelector, searchQuerySelector } from 'reducers/appReducer/selectors';
 import { isLastSubTask } from 'helpers/subTaskHelpers';
-import logError from 'utils/logger';
+import { logError } from 'utils/logger';
 
 export function* fetchTasksSaga() {
   const tasks = yield call(fetchTasks);
@@ -41,10 +41,9 @@ export function* deleteTaskSaga({ payload: taskId }) {
     const isSearchMode = yield select(isSearchModeSelector);
 
     if (isSearchMode) {
-      yield call(findTasksSaga);
-    } else {
-      yield call(fetchTasksSaga);
+      yield fork(findTasksSaga);
     }
+    yield fork(fetchTasksSaga);
   } catch (error) {
     // eslint-disable-next-line no-console
     logError('Delete task failed:', error);

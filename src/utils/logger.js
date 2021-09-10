@@ -1,7 +1,17 @@
-const logFunction = window.alert; // console.error (for development from Tablet purpose only)
+// eslint-disable-next-line no-console
+const logFunction = console.error; // window.alert  - for development from Tablet purpose only
 
-const logError = (...args) => {
+export const logError = (...args) => {
   logFunction(args.join(' '));
 };
 
-export default logError;
+export const logRequest =
+  (requestName, func) =>
+  (...args) => {
+    const result = func(...args);
+
+    // eslint-disable-next-line no-console
+    console.log('Request', requestName, 'args', args, 'result', result);
+
+    return result;
+  };
