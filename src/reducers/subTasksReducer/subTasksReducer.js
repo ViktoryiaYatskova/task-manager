@@ -38,7 +38,7 @@ const subTasksReducer = createReducer(initialTasksState, builder => {
     // TODO: get rid of alian action
     .addCase(setAppModeAction, (state, { payload: isSearchMode }) => ({
       ...state,
-      filters: isSearchMode ? [] : state.filters,
+      filters: isSearchMode ? state.filters : [],
     }));
 });
 
