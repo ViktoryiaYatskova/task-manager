@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TaskFormContainer = styled.div`
+export const TaskFormContainer = styled.section`
   & button {
     margin-left: 5px;
   }

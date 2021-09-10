@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Label = styled.li`
+export const LabelStyled = styled.li`
   display: inline-block;
   margin-right: 5px;
   padding: 0 5px;
@@ -10,6 +10,6 @@ export const Label = styled.li`
   color: #fff;
 `;
 
-export const LabelsList = styled.ul`
+export const LabelsListContainer = styled.ul`
   margin: 3px 0 10px;
 `;

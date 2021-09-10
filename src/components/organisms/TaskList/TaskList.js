@@ -11,10 +11,10 @@ const TasksList = () => {
   const { sortedItems, sortBy } = useSorting(tasks);
 
   return (
-    <>
+    <section>
       <SortTasksButtons sortBy={sortBy} />
       <List items={sortedItems} ItemComponent={Task} />
-    </>
+    </section>
   );
 };
 
