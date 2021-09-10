@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { isSearchModeSelector } from 'reducers/appReducer/selectors';
 import { foundSubTasksSelector } from 'reducers/subTasksReducer/selectors';
-import { getTasksOfSubTasks } from 'helpers/tasksHelpers';
+import { getFoundTasks } from 'helpers/tasksHelpers';
 
 export const tasksListSelector = state => state.tasks.tasksList;
 
@@ -10,7 +10,7 @@ export const tasksByIdSelector = (state, taskId) =>
 
 export const foundTasksSelector = state => state.tasks.foundTasksList;
 
-export const visibleTasks = createSelector(
+export const visibleTasksSelector = createSelector(
   isSearchModeSelector,
   tasksListSelector,
   foundTasksSelector,
@@ -18,6 +18,6 @@ export const visibleTasks = createSelector(
   (isSearchMode, tasksList, foundTasksList, foundSubTasks) =>
     isSearchMode
       ? // TODO: consider optimization of heavy operation below
-        foundTasksList.concat(getTasksOfSubTasks(tasksList, foundSubTasks))
+        getFoundTasks(tasksList, foundSubTasks, foundTasksList)
       : tasksList,
 );

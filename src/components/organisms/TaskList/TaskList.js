@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import Task from 'components/organisms/Task/Task';
 import { List } from 'components/atoms';
 import { SortTasksButtons } from 'components/molecules';
-import { tasksListSelector } from 'reducers/tasksReducer/selectors';
+import { visibleTasksSelector } from 'reducers/tasksReducer/selectors';
 import useSorting from './hooks/useSorting';
 
 const TasksList = () => {
-  const tasks = useSelector(tasksListSelector);
+  const tasks = useSelector(visibleTasksSelector);
   const { sortedItems, sortBy } = useSorting(tasks);
 
   return (

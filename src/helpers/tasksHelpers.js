@@ -4,8 +4,15 @@ export const formatTimeForRender = timeInMilliseconds => {
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 };
 
-export const isAnySubTaskOfTask = (subTasks, taskId) =>
+const isAnySubTaskOfTask = (subTasks, taskId) =>
   subTasks.find(subTask => subTask.taskId === taskId);
 
-export const getTasksOfSubTasks = (allTasks, subTasks) =>
-  allTasks.filter(task => isAnySubTaskOfTask(subTasks, task.id));
+// TODO: Consider using lodash for such operations
+const searchByProp = (array, searchItem, property) =>
+  array.find(item => item[property] === searchItem[property]);
+
+export const getFoundTasks = (allTasks, subTasks, foundTasks) => {
+  const isFoundTask = task => searchByProp(foundTasks, task, 'id');
+
+  return allTasks.filter(task => isFoundTask(task.id) || isAnySubTaskOfTask(subTasks, task.id));
+};
