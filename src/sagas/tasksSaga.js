@@ -9,6 +9,7 @@ import {
 import { searchItemsAction } from 'reducers/appReducer/actions';
 import { subTaskDeleteSucceedAction } from 'reducers/subTasksReducer/actions';
 import { subTasksByTaskIdSelector } from 'reducers/subTasksReducer/selectors';
+import { isSearchModeSelector, searchQuerySelector } from 'reducers/appReducer/selectors';
 import { isLastSubTask } from 'helpers/subTaskHelpers';
 import logError from 'utils/logger';
 
@@ -18,10 +19,14 @@ export function* fetchTasksSaga() {
   yield put(tasksSetAction(tasks));
 }
 
-export function* findTasksSaga({ payload: title }) {
-  const tasks = yield call(findTasks, title);
+export function* findTasksSaga() {
+  const searchQuery = select(searchQuerySelector);
 
-  yield put(tasksSetFoundAction(tasks));
+  if (searchQuery) {
+    const tasks = yield call(findTasks, searchQuery);
+
+    yield put(tasksSetFoundAction(tasks));
+  }
 }
 
 export function* createTaskSaga({ payload: newTask }) {
@@ -32,7 +37,14 @@ export function* createTaskSaga({ payload: newTask }) {
 export function* deleteTaskSaga({ payload: taskId }) {
   try {
     yield call(deleteTask, taskId);
-    yield call(fetchTasksSaga);
+
+    const isSearchMode = select(isSearchModeSelector);
+
+    if (isSearchMode) {
+      yield call(findTasksSaga);
+    } else {
+      yield call(fetchTasksSaga);
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     logError('Delete task failed:', error);
