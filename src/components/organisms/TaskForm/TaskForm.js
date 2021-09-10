@@ -16,7 +16,6 @@ const TaskForm = ({ title: initialTitle }) => {
     setTitle('');
   }, [title, dispatch]);
 
-  // UseCallback is redundant here
   const onToggleSearchMode = useCallback(() => {
     // Clear inbox on leaving search-mode
     if (isSearchMode) {
