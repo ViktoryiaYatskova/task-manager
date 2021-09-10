@@ -2,14 +2,14 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { searchSubTasksByLabelAction } from 'reducers/subTasksReducer/actions';
-import { LabelsListContainer, LabelStyled } from './LabelsList.styles';
+import { LabelsListContainer, LabelStyled, LabelListItem } from './LabelsList.styles';
 
 // TODO: move to atoms
 const Label = ({ label }) => {
   const dispatch = useDispatch();
   const handleClick = useCallback(
     () => dispatch(searchSubTasksByLabelAction(label)),
-    [dispatch, searchSubTasksByLabelAction, label],
+    [dispatch, label],
   );
 
   return (
@@ -26,9 +26,9 @@ Label.propTypes = {
 const LabelsList = ({ labels }) => (
   <LabelsListContainer>
     {labels.map(label => (
-      <li key={label}>
+      <LabelListItem key={label}>
         <Label label={label} />
-      </li>
+      </LabelListItem>
     ))}
   </LabelsListContainer>
 );

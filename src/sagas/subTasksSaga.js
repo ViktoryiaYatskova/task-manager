@@ -1,4 +1,4 @@
-import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
+import { put, takeEvery, call, takeLatest, select } from 'redux-saga/effects';
 import { fetchSubTasks, deleteSubTask, findSubTasks, findSubTasksByLabel } from 'api/subTasks';
 import {
   subTasksFetchAction,
@@ -9,6 +9,7 @@ import {
   searchSubTasksByLabelAction,
 } from 'reducers/subTasksReducer/actions';
 import { searchItemsAction } from 'reducers/appReducer/actions';
+import { subTaskFiltersSelector } from 'reducers/subTasksReducer/selectors';
 import logError from 'utils/logger';
 
 export function* fetchSubTasksSaga({ payload: taskId }) {
@@ -23,8 +24,9 @@ export function* findSubTasksSaga({ payload: title }) {
   yield put(subTasksSetFoundAction(subTasks));
 }
 
-export function* findSubTasksByLabelSaga({ payload: label }) {
-  const subTasks = yield call(findSubTasksByLabel, label);
+export function* findSubTasksByLabelSaga() {
+  const labels = yield select(subTaskFiltersSelector);
+  const subTasks = yield call(findSubTasksByLabel, labels);
 
   yield put(subTasksSetFoundAction(subTasks));
 }
