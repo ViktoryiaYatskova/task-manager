@@ -1,4 +1,4 @@
-import { put, takeEvery, call, takeLatest, select } from 'redux-saga/effects';
+import { put, takeEvery, call, takeLatest, select, fork } from 'redux-saga/effects';
 import { fetchSubTasks, deleteSubTask, findSubTasks, findSubTasksByLabel } from 'api/subTasks';
 import {
   subTasksFetchAction,
@@ -10,6 +10,7 @@ import {
 } from 'reducers/subTasksReducer/actions';
 import { searchItemsAction } from 'reducers/appReducer/actions';
 import { subTaskFiltersSelector } from 'reducers/subTasksReducer/selectors';
+import { isSearchModeSelector, searchQuerySelector } from 'reducers/appReducer/selectors';
 import logError from 'utils/logger';
 
 export function* fetchSubTasksSaga({ payload: taskId }) {
@@ -18,27 +19,42 @@ export function* fetchSubTasksSaga({ payload: taskId }) {
   yield put(subTasksSetAction({ taskId, subTasks }));
 }
 
-export function* findSubTasksSaga({ payload: title }) {
-  const subTasks = yield call(findSubTasks, title);
+export function* findSubTasksSaga() {
+  const searchQuery = select(searchQuerySelector);
 
-  yield put(subTasksSetFoundAction(subTasks));
+  if (searchQuery) {
+    const subTasks = yield call(findSubTasks, searchQuery);
+
+    yield put(subTasksSetFoundAction(subTasks));
+  }
 }
 
 export function* findSubTasksByLabelSaga() {
   const labels = yield select(subTaskFiltersSelector);
-  const subTasks = yield call(findSubTasksByLabel, labels);
 
-  yield put(subTasksSetFoundAction(subTasks));
+  if (labels) {
+    const subTasks = yield call(findSubTasksByLabel, labels);
+
+    yield put(subTasksSetFoundAction(subTasks));
+  }
 }
 
 export function* deleteSubTaskSaga({ payload: subTask }) {
   try {
     const { id: subTaskId, taskId } = subTask;
+    const isSearchMode = select(isSearchModeSelector);
 
     yield call(deleteSubTask, subTaskId);
     // on success delete:
     yield put(subTaskDeleteSucceedAction(subTask));
-    yield call(fetchSubTasksSaga, { payload: taskId });
+
+    if (isSearchMode) {
+      // refetch found subtask to show relevant data
+      yield fork(findSubTasksByLabelSaga);
+      yield fork(findSubTasksSaga);
+    } else {
+      yield call(fetchSubTasksSaga, { payload: taskId });
+    }
   } catch (error) {
     logError('Delete subTask request failed:', error);
   }
