@@ -41,23 +41,27 @@ export function* findSubTasksByLabelSaga() {
 
 export function* deleteSubTaskSaga({ payload: subTask }) {
   try {
-    const { id: subTaskId, taskId } = subTask;
-    const isSearchMode = yield select(isSearchModeSelector);
+    const { id: subTaskId } = subTask;
 
     yield call(deleteSubTask, subTaskId);
     // on success delete:
     yield put(subTaskDeleteSucceedAction(subTask));
-
-    if (isSearchMode) {
-      // refetch found subtask to show relevant data
-      // TODO: optimize: call only for subTask.taskId
-      yield fork(findSubTasksByLabelSaga);
-      yield fork(findSubTasksSaga);
-    }
-    yield call(fetchSubTasksSaga, { payload: taskId });
   } catch (error) {
     logError('Delete subTask request failed:', error);
   }
+}
+
+export function* updateSubTasksListsSaga({ payload: { taskId } }) {
+  const isSearchMode = yield select(isSearchModeSelector);
+
+  if (isSearchMode) {
+    // refetch found subtask to show relevant data
+    // TODO: optimize: call only for subTask.taskId
+    yield fork(findSubTasksByLabelSaga);
+    yield fork(findSubTasksSaga);
+  }
+
+  yield call(fetchSubTasksSaga, { payload: taskId });
 }
 
 export function* watchSubTasksActions() {
@@ -65,4 +69,5 @@ export function* watchSubTasksActions() {
   yield takeEvery(subTaskDeleteAction.type, deleteSubTaskSaga);
   yield takeLatest(searchItemsAction.type, findSubTasksSaga);
   yield takeLatest(searchSubTasksByLabelAction.type, findSubTasksByLabelSaga);
+  yield takeLatest(subTaskDeleteSucceedAction.type, updateSubTasksListsSaga);
 }
