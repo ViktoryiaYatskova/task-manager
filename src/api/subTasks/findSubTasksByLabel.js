@@ -1,6 +1,6 @@
 import Storage from 'utils/storage';
 import delay from 'utils/delay';
-import { logRequest } from 'utils/logger';
+import { logRequest, mapOmitEmpty } from 'api/utils';
 
 export default delay(
   logRequest('findSubTasksByLabel', searchLabels => {
@@ -9,8 +9,8 @@ export default delay(
     return searchLabels.reduce((filteredSubTasks, searchLabel) => {
       const lowerCasedLabel = searchLabel.toLowerCase();
 
-      return filteredSubTasks.filter(subTask =>
-        subTask.labels.some(label => label.toLowerCase() === lowerCasedLabel),
+      return mapOmitEmpty(filteredSubTasks, subTask =>
+        subTask.labels.some(label => label.toLowerCase() === lowerCasedLabel) ? subTask.id : null,
       );
     }, subTasks);
   }),
