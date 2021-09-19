@@ -1,17 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { uniques } from 'helpers/subTaskHelpers';
-import { setAppModeAction } from 'reducers/appReducer/actions';
+import { removeById } from 'helpers/genericHelpers';
 import {
   subTasksSetAction,
   subTasksSetFoundAction,
   subTasksResetFoundAction,
-  searchSubTasksByLabelAction,
+  subTaskDeleteSucceedAction,
 } from './actions';
 
 const initialTasksState = {
   allSubTasks: {},
   foundSubTasksList: [],
-  filters: [],
 };
 
 const subTasksReducer = createReducer(initialTasksState, builder => {
@@ -31,18 +29,17 @@ const subTasksReducer = createReducer(initialTasksState, builder => {
       ...state,
       foundSubTasksList: [],
     }))
-    .addCase(searchSubTasksByLabelAction, (state, { payload: label }) => ({
-      ...state,
-      filters: uniques(...state.filters, label),
-    }))
-    // TODO: get rid of alien action
-    .addCase(setAppModeAction, (state, { payload: isSearchMode }) => ({
-      ...state,
-      filters: isSearchMode ? state.filters : [],
-      // Temporary workaround : collapse all subtasks on searchMode
-      // TODO: refetch only visible in regular mode subtasks on delete subtask
-      allSubTasks: isSearchMode ? state.allSubTasks : {},
-    }));
+    .addCase(
+      subTaskDeleteSucceedAction,
+      (state, { payload: { id: removedSubTaskId, taskId } }) => ({
+        ...state,
+        foundSubTasksList: removeById(state.foundSubTasksList, removedSubTaskId),
+        allSubTasks: {
+          ...state.allSubTasks,
+          [taskId]: removeById(state.allSubTasks[taskId], removedSubTaskId),
+        },
+      }),
+    );
 });
 
 export default subTasksReducer;

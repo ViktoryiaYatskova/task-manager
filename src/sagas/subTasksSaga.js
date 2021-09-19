@@ -1,4 +1,4 @@
-import { put, takeEvery, call, takeLatest, select, fork } from 'redux-saga/effects';
+import { put, takeEvery, call, takeLatest, select } from 'redux-saga/effects';
 import { fetchSubTasks, deleteSubTask, findSubTasks, findSubTasksByLabel } from 'api/subTasks';
 import {
   subTasksFetchAction,
@@ -6,11 +6,9 @@ import {
   subTaskDeleteAction,
   subTaskDeleteSucceedAction,
   subTasksSetFoundAction,
-  searchSubTasksByLabelAction,
 } from 'reducers/subTasksReducer/actions';
-import { searchItemsAction } from 'reducers/appReducer/actions';
-import { subTaskFiltersSelector } from 'reducers/subTasksReducer/selectors';
-import { isSearchModeSelector, searchQuerySelector } from 'reducers/appReducer/selectors';
+import { searchItemsAction, searchItemsByLabelAction } from 'reducers/appReducer/actions';
+import { searchQuerySelector, filtersSelector } from 'reducers/appReducer/selectors';
 import { logError } from 'utils/logger';
 
 export function* fetchSubTasksSaga({ payload: taskId }) {
@@ -30,7 +28,7 @@ export function* findSubTasksSaga() {
 }
 
 export function* findSubTasksByLabelSaga() {
-  const labels = yield select(subTaskFiltersSelector);
+  const labels = yield select(filtersSelector);
 
   if (labels) {
     const subTasks = yield call(findSubTasksByLabel, labels);
@@ -51,23 +49,9 @@ export function* deleteSubTaskSaga({ payload: subTask }) {
   }
 }
 
-export function* updateSubTasksListsSaga({ payload: { taskId } }) {
-  const isSearchMode = yield select(isSearchModeSelector);
-
-  if (isSearchMode) {
-    // refetch found subtask to show relevant data
-    // TODO: optimize: call only for subTask.taskId
-    yield fork(findSubTasksByLabelSaga);
-    yield fork(findSubTasksSaga);
-  }
-
-  yield call(fetchSubTasksSaga, { payload: taskId });
-}
-
 export function* watchSubTasksActions() {
   yield takeEvery(subTasksFetchAction.type, fetchSubTasksSaga);
   yield takeEvery(subTaskDeleteAction.type, deleteSubTaskSaga);
   yield takeLatest(searchItemsAction.type, findSubTasksSaga);
-  yield takeLatest(searchSubTasksByLabelAction.type, findSubTasksByLabelSaga);
-  yield takeLatest(subTaskDeleteSucceedAction.type, updateSubTasksListsSaga);
+  yield takeLatest(searchItemsByLabelAction.type, findSubTasksByLabelSaga);
 }

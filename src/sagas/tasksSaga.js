@@ -1,4 +1,4 @@
-import { put, takeEvery, takeLatest, call, select, fork } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest, call, select } from 'redux-saga/effects';
 import { fetchTasks, createTask, deleteTask, findTasks } from 'api/tasks';
 import {
   tasksFetchAction,
@@ -10,7 +10,7 @@ import {
 import { searchItemsAction } from 'reducers/appReducer/actions';
 import { subTaskDeleteSucceedAction } from 'reducers/subTasksReducer/actions';
 import { subTasksByTaskIdSelector } from 'reducers/subTasksReducer/selectors';
-import { isSearchModeSelector, searchQuerySelector } from 'reducers/appReducer/selectors';
+import { searchQuerySelector } from 'reducers/appReducer/selectors';
 import { isLastSubTask } from 'helpers/subTaskHelpers';
 import { logError } from 'utils/logger';
 
@@ -39,7 +39,7 @@ export function* deleteTaskSaga({ payload: taskId }) {
   try {
     yield call(deleteTask, taskId);
     // on success
-    yield put(taskDeleteSucceedAction());
+    yield put(taskDeleteSucceedAction(taskId));
   } catch (error) {
     // eslint-disable-next-line no-console
     logError('Delete task failed:', error);
@@ -55,19 +55,9 @@ export function* deleteEmptyTaskSaga({ payload: subTask }) {
   }
 }
 
-export function* updateTasksListsSaga() {
-  const isSearchMode = yield select(isSearchModeSelector);
-
-  if (isSearchMode) {
-    yield fork(findTasksSaga);
-  }
-  yield fork(fetchTasksSaga);
-}
-
 export function* watchTasksActions() {
   yield takeLatest(tasksFetchAction.type, fetchTasksSaga);
   yield takeEvery(taskCreateAction.type, createTaskSaga);
   yield takeLatest(searchItemsAction.type, findTasksSaga);
   yield takeEvery(subTaskDeleteSucceedAction.type, deleteEmptyTaskSaga);
-  yield takeLatest(taskDeleteSucceedAction.type, updateTasksListsSaga);
 }

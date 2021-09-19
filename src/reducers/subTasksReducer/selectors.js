@@ -2,7 +2,6 @@ import { createSelector } from '@reduxjs/toolkit';
 import { isSearchModeSelector } from 'reducers/appReducer/selectors';
 
 export const foundSubTasksSelector = state => state.subTasks.foundSubTasksList;
-export const subTaskFiltersSelector = state => state.subTasks.filters;
 
 export const foundSubTasksByTaskIdSelectorFactory = taskId =>
   createSelector(foundSubTasksSelector, foundSubTasksList =>
