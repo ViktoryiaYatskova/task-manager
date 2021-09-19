@@ -1,24 +1,26 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { searchSubTasksByLabelAction } from 'reducers/subTasksReducer/actions';
-import { setAppModeAction, searchItemsAction } from './actions';
+import { uniques } from 'helpers/genericHelpers';
+import { setAppModeAction, searchItemsAction, searchItemsByLabelAction } from './actions';
 
 const initialTasksState = {
   isSearchMode: false,
   searchQuery: '',
+  filters: [],
 };
 
 const appReducer = createReducer(initialTasksState, builder => {
   builder
-    // TODO: get rid of using alian action
-    .addCase(searchSubTasksByLabelAction, state => ({
+    .addCase(searchItemsByLabelAction, (state, { payload: label }) => ({
       ...state,
       isSearchMode: true,
       searchQuery: '',
+      filters: uniques(...state.filters, label),
     }))
     .addCase(setAppModeAction, (state, { payload: isSearchMode }) => ({
       ...state,
       isSearchMode,
       searchQuery: isSearchMode ? state.searchQuery : '',
+      filters: isSearchMode ? state.filters : [],
     }))
     .addCase(searchItemsAction, (state, { payload: searchQuery }) => ({
       ...state,

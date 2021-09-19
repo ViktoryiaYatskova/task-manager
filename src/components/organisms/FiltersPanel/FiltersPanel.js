@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { subTaskFiltersSelector } from 'reducers/subTasksReducer/selectors';
+import { filtersSelector } from 'reducers/appReducer/selectors';
 import { LabelsList } from 'components/molecules';
 
 const FiltersPanel = () => {
-  const filters = useSelector(subTaskFiltersSelector);
+  const filters = useSelector(filtersSelector);
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import Storage from 'utils/storage';
 import delay from 'utils/delay';
-import { logRequest } from 'utils/logger';
+import { logRequest } from 'api/utils';
 
 export default delay(
   logRequest('findSubTasksByLabel', searchLabels => {

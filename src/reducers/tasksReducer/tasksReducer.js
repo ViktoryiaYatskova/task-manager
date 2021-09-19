@@ -1,5 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { tasksSetAction, tasksSetFoundAction, tasksResetFoundAction } from './actions';
+import { removeById } from 'helpers/genericHelpers';
+import {
+  tasksSetAction,
+  tasksSetFoundAction,
+  tasksResetFoundAction,
+  taskDeleteSucceedAction,
+} from './actions';
 
 const initialTasksState = {
   tasksList: [],
@@ -19,6 +25,11 @@ const tasksReducer = createReducer(initialTasksState, builder => {
     .addCase(tasksResetFoundAction, state => ({
       ...state,
       foundTasksList: [],
+    }))
+    .addCase(taskDeleteSucceedAction, (state, { payload: removedTaskId }) => ({
+      ...state,
+      tasksList: removeById(state.tasksList, removedTaskId),
+      foundTasksList: removeById(state.foundTasksList, removedTaskId),
     }));
 });
 
